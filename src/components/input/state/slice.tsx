@@ -1,13 +1,13 @@
-import { Action } from "./action";
+import { Action } from "../../../commons/action";
 import { createSlice } from "@reduxjs/toolkit";
 
 export type State = {
   count: number;
 };
 
-export const select = (state: any): State => state.hello;
+export const select = (state: any): State => state.input;
 const slice = createSlice({
-  name: "hello",
+  name: "input",
   initialState: {
     count: 0,
   } as State,

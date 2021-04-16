@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { AppDispatch, wrapper } from "../store";
-import { Hello } from "../components/hello/hello";
+import { Hello } from "../components/input/hello";
 // @ts-ignore
 import styles from "../styles/index.module.scss";
 

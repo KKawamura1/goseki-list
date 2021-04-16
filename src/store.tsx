@@ -2,7 +2,7 @@ import { AnyAction, CombinedState, combineReducers, createStore } from 'redux';
 import { createWrapper, Context, HYDRATE } from 'next-redux-wrapper';
 import { configureStore } from '@reduxjs/toolkit';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import { reducer as helloReducer } from './components/hello/state/slice';
+import { reducer as helloReducer } from './components/input/state/slice';
 import { Dispatch } from 'react';
 
 const reducerWithoutHydrate = combineReducers({
