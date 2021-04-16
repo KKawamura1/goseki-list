@@ -3,7 +3,7 @@ import { select, countUp } from "./state/slice";
 // @ts-ignore
 import styles from "./styles.module.scss";
 
-export const Hello = () => {
+export const InputPage = () => {
   const dispatch = useDispatch();
   const count = useSelector(select).count;
   return (

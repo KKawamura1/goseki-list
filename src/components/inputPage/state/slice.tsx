@@ -5,9 +5,9 @@ export type State = {
   count: number;
 };
 
-export const select = (state: any): State => state.input;
+export const select = (state: any): State => state.inputPage;
 const slice = createSlice({
-  name: "input",
+  name: "inputPage",
   initialState: {
     count: 0,
   } as State,
