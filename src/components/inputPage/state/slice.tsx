@@ -15,6 +15,7 @@ type TalismanEntityState = {
 };
 export type State = {
   talismans: EntityState<TalismanEntityState>;
+  addTalismanSkillId: number,
   addTalismanTextForm: string;
   addSkillNameForm: string;
   addSkillYomiForm: string;
@@ -40,6 +41,7 @@ const slice = createSlice({
   name: "inputPage", // ParentState と名前を合わせる必要がある
   initialState: {
     talismans: initialTalismanEntityState,
+    addTalismanSkillId: "",
     addTalismanTextForm: "",
     addSkillNameForm: "",
     addSkillYomiForm: "",
