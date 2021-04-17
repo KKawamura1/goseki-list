@@ -30,10 +30,12 @@ export const InputPage = () => {
       </div>
       <div>
         <h1>スキル追加</h1>
+        <p>名前</p>
         <TextForm
           setMethod={setSkillNameForm}
           selector={(state) => select(state).addSkillNameForm}
         ></TextForm>
+        <p>よみ</p>
         <TextForm
           setMethod={setSkillYomiForm}
           selector={(state) => select(state).addSkillYomiForm}
