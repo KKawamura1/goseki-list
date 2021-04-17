@@ -8,7 +8,7 @@ export type Props = {
   items: ReactNode[];
   values: Number[];
   setMethod: Dispatch<{ value: number }>;
-  selector: (state: any) => number;
+  // selector: (state: any) => number;
 };
 
 export const PullDownForm = ({
@@ -16,10 +16,10 @@ export const PullDownForm = ({
   items,
   values,
   setMethod,
-  selector,
+  // selector,
 }: Props) => {
   const dispatch = useDispatch();
-  const value = useSelector(selector);
+  // const value = useSelector(selector);
   const options = items.map((item, index) => (
     <option key={index} value={values[index].toString()}>
       {item}
@@ -28,7 +28,7 @@ export const PullDownForm = ({
   return (
     <select
       name={name}
-      value={value}
+      // value={value}
       required
       onChange={(event) => {
         dispatch(setMethod({ value: Number(event.target.value) }));

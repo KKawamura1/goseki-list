@@ -111,6 +111,9 @@ export const select = (state: ParentState): State => state.inputPage;
 export const reducer = slice.reducer;
 export const {
   addTalisman,
+  setTalismanSkillId,
+  setTalismanSkillLevel,
+  setTalismanSlotKind,
   addSkill,
   setSkillNameForm,
   setSkillYomiForm,

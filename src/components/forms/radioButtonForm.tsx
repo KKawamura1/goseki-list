@@ -8,7 +8,7 @@ export type Props = {
   id: number;
   children: ReactNode;
   setMethod: Dispatch<{ id: number }>;
-  selector: (state: any) => number;
+  // selector: (state: any) => number;
 };
 
 export const RadioButtonForm = ({
@@ -16,16 +16,16 @@ export const RadioButtonForm = ({
   id,
   children,
   setMethod,
-  selector,
+  // selector,
 }: Props) => {
   const dispatch = useDispatch();
-  const selectedId = useSelector(selector);
+  // const selectedId = useSelector(selector);
   return (
     <label>
       <input
         type="radio"
         name={name}
-        checked={id === selectedId}
+        // checked={id === selectedId}
         onChange={(event) => {
           dispatch(setMethod({ id: id }));
         }}
