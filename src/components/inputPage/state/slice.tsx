@@ -6,6 +6,7 @@ import {
 import { Action } from "../../../commons/action";
 import { addTalisman as addTalismanToDB } from "../utilities/addTalisman";
 import { addSkill as addSkillToDB } from "../utilities/addSkill";
+import { removeSkill as removeSkillFromDB } from "../utilities/removeSkill";
 
 // State types
 type TalismanEntityState = {
@@ -46,6 +47,7 @@ const slice = createSlice({
     removeSkillId: 0,
   } as State,
   reducers: {
+    // Add talisman
     addTalisman: (state) => {
       const ids = state.talismans.ids.map((id) => {
         if (typeof id === "string") {
@@ -59,6 +61,10 @@ const slice = createSlice({
       addTalismanToDB(newName);
       state.addTalismanTextForm = "";
     },
+    setTalismanTextForm: (state, action: Action<{ text: string }>) => {
+      state.addTalismanTextForm = action.payload.text;
+    },
+    // Add Skill
     addSkill: (state) => {
       addSkillToDB(
         state.addSkillNameForm,
@@ -68,9 +74,6 @@ const slice = createSlice({
       state.addSkillNameForm = "";
       state.addSkillYomiForm = "";
     },
-    setTalismanTextForm: (state, action: Action<{ text: string }>) => {
-      state.addTalismanTextForm = action.payload.text;
-    },
     setSkillNameForm: (state, action: Action<{ text: string }>) => {
       state.addSkillNameForm = action.payload.text;
     },
@@ -79,6 +82,13 @@ const slice = createSlice({
     },
     setSkillSize: (state, action: Action<{ id: number }>) => {
       state.addSkillSize = action.payload.id;
+    },
+    // Remove Skill
+    removeSkill: (
+      state,
+      action: Action<{ idToSkillId: (selectId: number) => number }>
+    ) => {
+      removeSkillFromDB(action.payload.idToSkillId(state.removeSkillId));
     },
     setRemoveSkillId: (state, action: Action<{ value: number }>) => {
       state.removeSkillId = action.payload.value;
@@ -92,10 +102,11 @@ export const select = (state: ParentState): State => state.inputPage;
 export const reducer = slice.reducer;
 export const {
   addTalisman,
-  addSkill,
   setTalismanTextForm,
+  addSkill,
   setSkillNameForm,
   setSkillYomiForm,
   setSkillSize,
+  removeSkill,
   setRemoveSkillId,
 } = slice.actions;

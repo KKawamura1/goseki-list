@@ -8,6 +8,7 @@ import {
   setSkillYomiForm,
   setSkillSize,
   setRemoveSkillId,
+  removeSkill,
   select,
 } from "./state/slice";
 import { TextForm } from "../forms/textForm";
@@ -95,6 +96,16 @@ export const InputPage = ({ skills }: Props) => {
           setMethod={setRemoveSkillId}
           selector={(state) => select(state).removeSkillId}
         ></PullDownForm>
+
+        <button
+          onClick={() =>
+            dispatch(
+              removeSkill({ idToSkillId: (skillId) => skills[skillId].id })
+            )
+          }
+        >
+          削除
+        </button>
       </div>
     </div>
   );

@@ -32,16 +32,10 @@ export default async function handle(
   res: NextApiResponse
 ) {
   await runMiddleware(req, res, cors);
-  const {
-    name,
-    yomi,
-    size,
-  }: { name: string; yomi: string; size: number } = req.body;
-  const skill = await prisma.skill.create({
-    data: {
-      name,
-      yomi,
-      size,
+  const { skillId }: { skillId: number } = req.body;
+  const skill = await prisma.skill.delete({
+    where: {
+      id: skillId,
     },
   });
   res.json({ skill });
