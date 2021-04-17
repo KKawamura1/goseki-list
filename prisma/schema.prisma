@@ -13,6 +13,7 @@ generator client {
 model Skill {
   id            Int             @id @default(autoincrement())
   name          String
+  yomi          String
   size          Int
   SkillAndLevel SkillAndLevel[]
 }
