@@ -9,12 +9,10 @@ export const InputPage = () => {
   const talismans = useSelector(selectTalismanAll).map((talisman) => (
     <p>{talisman.name}</p>
   ));
-  console.log(useSelector(select));
   return (
     <div>
       <TextForm></TextForm>
       <button onClick={() => dispatch(addTalisman())}>Add</button>
-      <p>Hello!</p>
       <div>{talismans}</div>
     </div>
   );
