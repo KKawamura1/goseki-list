@@ -43,7 +43,7 @@ const slice = createSlice({
         }
         return id;
       });
-      const newId = Math.max(...ids) + 1;
+      const newId = Math.max(...ids, 0) + 1;
       const newName = state.addTalismanTextForm;
       talismanAdapter.addOne(state.talismans, { id: newId, name: newName });
       state.addTalismanTextForm = "";

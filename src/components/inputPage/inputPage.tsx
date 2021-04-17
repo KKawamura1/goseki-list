@@ -6,15 +6,16 @@ import styles from "./styles.module.scss";
 
 export const InputPage = () => {
   const dispatch = useDispatch();
-  const talismans = useSelector(selectTalismanAll).map((talisman) => {
-    <p>{talisman.name}</p>;
-  });
+  const talismans = useSelector(selectTalismanAll).map((talisman) => (
+    <p>{talisman.name}</p>
+  ));
+  console.log(useSelector(select));
   return (
     <div>
       <TextForm></TextForm>
       <button onClick={() => dispatch(addTalisman())}>Add</button>
       <p>Hello!</p>
-      {talismans}
+      <div>{talismans}</div>
     </div>
   );
 };
