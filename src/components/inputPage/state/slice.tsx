@@ -5,6 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import { Action } from "../../../commons/action";
 import { addTalisman as addTalismanToDB } from "../utilities/addTalisman";
+import { addSkill as addSkillToDB } from "../utilities/addSkill";
 
 // State types
 type TalismanEntityState = {
@@ -14,6 +15,8 @@ type TalismanEntityState = {
 export type State = {
   talismans: EntityState<TalismanEntityState>;
   addTalismanTextForm: string;
+  addSkillNameForm: string;
+  addSkillYomiForm: string;
 };
 type ParentState = { inputPage: State };
 
@@ -50,8 +53,19 @@ const slice = createSlice({
       addTalismanToDB(newName);
       state.addTalismanTextForm = "";
     },
+    addSkill: (state) => {
+      addSkillToDB(state.addSkillNameForm, state.addSkillYomiForm, 1);
+      state.addSkillNameForm = "";
+      state.addSkillYomiForm = "";
+    },
     setTalismanTextForm: (state, action: Action<{ text: string }>) => {
       state.addTalismanTextForm = action.payload.text;
+    },
+    setSkillNameForm: (state, action: Action<{ text: string }>) => {
+      state.addSkillNameForm = action.payload.text;
+    },
+    setSkillYomiForm: (state, action: Action<{ text: string }>) => {
+      state.addSkillYomiForm = action.payload.text;
     },
   },
   extraReducers: (builder) => {},
@@ -59,4 +73,10 @@ const slice = createSlice({
 
 export const select = (state: ParentState): State => state.inputPage;
 export const reducer = slice.reducer;
-export const { addTalisman, setTalismanTextForm } = slice.actions;
+export const {
+  addTalisman,
+  addSkill,
+  setTalismanTextForm,
+  setSkillNameForm,
+  setSkillYomiForm,
+} = slice.actions;
