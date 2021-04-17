@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Action } from "../../../commons/action";
 import { addTalisman as addTalismanToDB } from "../utilities/addTalisman";
+import { removeTalisman as removeTalismanFromDB } from "../utilities/removeTalisman";
 import { addSkill as addSkillToDB } from "../utilities/addSkill";
 import { removeSkill as removeSkillFromDB } from "../utilities/removeSkill";
 import { NextRouter } from "next/dist/client/router";
@@ -72,6 +73,15 @@ const slice = createSlice({
     ) => {
       state.addTalisman.slotSize = action.payload.slotSize;
     },
+    // Remove talisman
+    removeTalisman: (
+      state,
+      action: Action<{ talismanId: number; router: NextRouter }>
+    ) => {
+      removeTalismanFromDB(action.payload.talismanId).finally(() => {
+        action.payload.router.replace(action.payload.router.asPath);
+      });
+    },
     // Add Skill
     addSkill: (state, action: Action<{ router: NextRouter }>) => {
       addSkillToDB(
@@ -115,6 +125,7 @@ export const {
   setTalismanSkillId,
   setTalismanSkillLevel,
   setTalismanSlotKind,
+  removeTalisman,
   addSkill,
   setSkillNameForm,
   setSkillYomiForm,

@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const skills = await prisma.skill.findMany();
   const talismans = await prisma.talisman.findMany();
   const result: Props = {
-    skills: skills,
+    skills: skills.sort((a, b) => a.yomi.localeCompare(b.yomi)),
     talismans: talismans.map((talisman) => ({
       id: talisman.id,
       skills: [

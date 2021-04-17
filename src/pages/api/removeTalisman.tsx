@@ -32,11 +32,11 @@ export default async function handle(
   res: NextApiResponse
 ) {
   await runMiddleware(req, res, cors);
-  const { skillId }: { skillId: number } = req.body;
-  const skill = await prisma.skill.delete({
+  const { talismanId }: { talismanId: number } = req.body;
+  const talisman = await prisma.talisman.delete({
     where: {
-      id: skillId,
+      id: talismanId,
     },
   });
-  res.json({ skill });
+  res.json({ talisman });
 }

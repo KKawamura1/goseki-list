@@ -4,6 +4,7 @@ import {
   setTalismanSkillId,
   setTalismanSkillLevel,
   setTalismanSlotKind,
+  removeTalisman,
   addSkill,
   setSkillNameForm,
   setSkillYomiForm,
@@ -105,14 +106,28 @@ export const InputPage = ({ skills, talismans, router }: Props) => {
         </button>
         <div>
           {talismans
-            .map((talisman) =>
-              talismanToString(
-                (id) => skills.find((element) => element.id === id)?.name || "",
-                talisman
-              )
+            .map(
+              (talisman) =>
+                [
+                  talisman.id,
+                  talismanToString(
+                    (id) =>
+                      skills.find((element) => element.id === id)?.name || "",
+                    talisman
+                  ),
+                ] as [number, string]
             )
-            .map((text) => (
-              <p>{text}</p>
+            .map(([id, text]) => (
+              <p key={id}>
+                <button
+                  onClick={() =>
+                    dispatch(removeTalisman({ talismanId: id, router: router }))
+                  }
+                >
+                  ☓
+                </button>
+                {text}
+              </p>
             ))}
         </div>
       </div>
