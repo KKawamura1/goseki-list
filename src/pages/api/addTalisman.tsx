@@ -54,7 +54,7 @@ export default async function handle(
           level1: data.level1,
         };
   const skill2 =
-    data.skill1Id === null
+    data.skill2Id === null
       ? {}
       : {
           skill2: {

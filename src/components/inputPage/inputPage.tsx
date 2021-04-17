@@ -102,7 +102,10 @@ export const InputPage = ({ skills, talismans }: Props) => {
         <div>
           {talismans
             .map((talisman) =>
-              talismanToString((id) => skills[id].name, talisman)
+              talismanToString(
+                (id) => skills.find((element) => element.id === id)?.name || "",
+                talisman
+              )
             )
             .map((text) => (
               <p>{text}</p>

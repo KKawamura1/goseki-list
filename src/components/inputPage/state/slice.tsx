@@ -26,15 +26,15 @@ const slice = createSlice({
   initialState: {
     addTalisman: {
       skills: [
-        { skillId: 0, level: 0 },
-        { skillId: 0, level: 0 },
+        { skillId: null, level: 0 },
+        { skillId: null, level: 0 },
       ],
       slotSize: [0, 0, 0],
     },
     addSkillNameForm: "",
     addSkillYomiForm: "",
     addSkillSize: 0,
-    removeSkillId: 0,
+    removeSkillId: null,
   } as State,
   reducers: {
     // Add talisman
@@ -48,13 +48,6 @@ const slice = createSlice({
         slot2: state.addTalisman.slotSize[1],
         slot3: state.addTalisman.slotSize[2],
       });
-      state.addTalisman = {
-        skills: [
-          { skillId: 0, level: 0 },
-          { skillId: 0, level: 0 },
-        ],
-        slotSize: [0, 0, 0],
-      };
     },
     setTalismanSkillId: (
       state,
@@ -97,7 +90,9 @@ const slice = createSlice({
     },
     // Remove Skill
     removeSkill: (state) => {
-      removeSkillFromDB(state.removeSkillId);
+      if (state.removeSkillId !== null) {
+        removeSkillFromDB(state.removeSkillId);
+      }
     },
     setRemoveSkillId: (state, action: Action<{ value: number }>) => {
       state.removeSkillId = action.payload.value;

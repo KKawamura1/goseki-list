@@ -40,10 +40,14 @@ Props) => {
       // value={value}
       required
       onChange={(event) => {
-        dispatch(setMethod({ value: Number(event.target.value) }));
+        dispatch(
+          setMethod({
+            value: event.target.value === "" ? -1 : Number(event.target.value),
+          })
+        );
       }}
     >
-      {options}
+      {optionsAndPlaceHolder}
     </select>
   );
 };
