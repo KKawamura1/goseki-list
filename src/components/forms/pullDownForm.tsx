@@ -7,6 +7,7 @@ export type Props = {
   name: string;
   items: ReactNode[];
   values: Number[];
+  placeHolder: boolean;
   setMethod: Dispatch<{ value: number }>;
   // selector: (state: any) => number;
 };
@@ -15,9 +16,10 @@ export const PullDownForm = ({
   name,
   items,
   values,
+  placeHolder,
   setMethod,
-  // selector,
-}: Props) => {
+}: // selector,
+Props) => {
   const dispatch = useDispatch();
   // const value = useSelector(selector);
   const options = items.map((item, index) => (
@@ -25,6 +27,13 @@ export const PullDownForm = ({
       {item}
     </option>
   ));
+  const optionsAndPlaceHolder = placeHolder
+    ? [
+        <option key={-1} value="">
+          Choose:
+        </option>,
+      ].concat(options)
+    : options;
   return (
     <select
       name={name}

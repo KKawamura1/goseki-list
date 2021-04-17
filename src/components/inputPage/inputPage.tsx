@@ -16,7 +16,7 @@ import { TextForm } from "../forms/textForm";
 import { RadioButtonForm } from "../forms/radioButtonForm";
 import { PullDownForm } from "../forms/pullDownForm";
 import { Skill, skillToString } from "../../commons/types/skill";
-import { Talisman } from "../../commons/types/talisman";
+import { Talisman, talismanToString } from "../../commons/types/talisman";
 // @ts-ignore
 import styles from "./styles.module.scss";
 
@@ -60,6 +60,7 @@ export const InputPage = ({ skills, talismans }: Props) => {
               name={`talismanSkill${num}`}
               items={skills.map((skill) => skillToString(skill))}
               values={skills.map((skill) => skill.id)}
+              placeHolder={true}
               setMethod={({ value }) =>
                 setTalismanSkillId({ place: num, skillId: value })
               }
@@ -71,6 +72,7 @@ export const InputPage = ({ skills, talismans }: Props) => {
               name={`talismanLevel${num}`}
               items={[...new Array(8)].map((_, num) => num)}
               values={[...new Array(8)].map((_, num) => num)}
+              placeHolder={false}
               setMethod={({ value }) =>
                 setTalismanSkillLevel({ place: num, skillLevel: value })
               }
@@ -82,6 +84,7 @@ export const InputPage = ({ skills, talismans }: Props) => {
           name="talismanSlot"
           items={slots.map((slots) => `${slots[0]}-${slots[1]}-${slots[2]}`)}
           values={slots.map((_, index) => index)}
+          placeHolder={false}
           setMethod={({ value }) => {
             const count = (target: number) =>
               slots[value]
@@ -96,7 +99,15 @@ export const InputPage = ({ skills, talismans }: Props) => {
           // selector={(state) => select(state).addTalisman.slotSize}
         ></PullDownForm>
         <button onClick={() => dispatch(addTalisman())}>Add</button>
-        {/* <div>{talismans}</div> */}
+        <div>
+          {talismans
+            .map((talisman) =>
+              talismanToString((id) => skills[id].name, talisman)
+            )
+            .map((text) => (
+              <p>{text}</p>
+            ))}
+        </div>
       </div>
       <div>
         <h1>スキル追加</h1>
@@ -130,6 +141,7 @@ export const InputPage = ({ skills, talismans }: Props) => {
           name="skillRemove"
           items={skills.map((skill) => skillToString(skill))}
           values={skills.map((skill) => skill.id)}
+          placeHolder={true}
           setMethod={setRemoveSkillId}
           // selector={(state) => select(state).removeSkillId}
         ></PullDownForm>

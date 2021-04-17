@@ -33,6 +33,7 @@ export default async function handle(
 ) {
   await runMiddleware(req, res, cors);
   const { skillId }: { skillId: number } = req.body;
+  console.log(skillId);
   const skill = await prisma.skill.delete({
     where: {
       id: skillId,

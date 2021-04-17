@@ -33,6 +33,7 @@ export default async function handle(
 ) {
   await runMiddleware(req, res, cors);
   const talismans = await prisma.talisman.findMany();
+  console.log(talismans);
   res.setHeader("Cache-Control", "public, max-age=0, stale-while-revalidate=1");
   res.json(talismans);
 }

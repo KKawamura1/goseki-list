@@ -33,16 +33,45 @@ export default async function handle(
 ) {
   await runMiddleware(req, res, cors);
   const data: {
-    skill1Id: number;
+    skill1Id: number | null;
     level1: number;
-    skill2Id: number;
+    skill2Id: number | null;
     level2: number;
     slot1: number;
     slot2: number;
     slot3: number;
   } = req.body; // TODO: typing
+  console.log(data);
+  const skill1 =
+    data.skill1Id === null
+      ? {}
+      : {
+          skill1: {
+            connect: {
+              id: data.skill1Id,
+            },
+          },
+          level1: data.level1,
+        };
+  const skill2 =
+    data.skill1Id === null
+      ? {}
+      : {
+          skill2: {
+            connect: {
+              id: data.skill2Id,
+            },
+          },
+          level1: data.level2,
+        };
   const talisman = await prisma.talisman.create({
-    data: { ...data },
+    data: {
+      slot1: data.slot1,
+      slot2: data.slot2,
+      slot3: data.slot3,
+      ...skill1,
+      ...skill2,
+    },
   });
   res.json({ talisman });
 }

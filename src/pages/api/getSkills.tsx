@@ -34,12 +34,12 @@ export default async function handle(
 ) {
   await runMiddleware(req, res, cors);
   const skills = await prisma.skill.findMany();
+  console.log(skills);
   const jsonableSkills: Skill[] = skills.map((skill) => ({
     id: skill.id,
     name: skill.name,
     yomi: skill.yomi,
     size: skill.size,
   }));
-  console.log(jsonableSkills);
   res.json(jsonableSkills);
 }

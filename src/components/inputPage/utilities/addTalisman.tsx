@@ -1,7 +1,7 @@
 export const addTalisman = async (talisman: {
-  skill1Id: number;
+  skill1Id: number | null;
   level1: number;
-  skill2Id: number;
+  skill2Id: number | null;
   level2: number;
   slot1: number;
   slot2: number;

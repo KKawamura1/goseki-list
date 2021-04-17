@@ -8,15 +8,15 @@ import { removeSkill as removeSkillFromDB } from "../utilities/removeSkill";
 export type State = {
   addTalisman: {
     skills: [
-      { skillId: number; level: number },
-      { skillId: number; level: number }
+      { skillId: number | null; level: number },
+      { skillId: number | null; level: number }
     ];
     slotSize: [number, number, number];
   };
   addSkillNameForm: string;
   addSkillYomiForm: string;
   addSkillSize: number;
-  removeSkillId: number;
+  removeSkillId: number | null;
 };
 type ParentState = { inputPage: State };
 
