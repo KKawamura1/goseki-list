@@ -89,8 +89,8 @@ const slice = createSlice({
         state.addSkillYomiForm,
         state.addSkillSize
       ).finally(() => {
-        state.addSkillNameForm = "";
-        state.addSkillYomiForm = "";
+        // state.addSkillNameForm = "";
+        // state.addSkillYomiForm = "";
         action.payload.router.replace(action.payload.router.asPath);
       });
     },

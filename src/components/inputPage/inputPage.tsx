@@ -19,6 +19,7 @@ import { PullDownForm } from "../forms/pullDownForm";
 import { Skill, skillToString } from "../../commons/types/skill";
 import { Talisman, talismanToString } from "../../commons/types/talisman";
 import { NextRouter } from "next/dist/client/router";
+import { talismanDomination } from "../../commons/talismanDomination";
 // @ts-ignore
 import styles from "./styles.module.scss";
 
@@ -53,6 +54,49 @@ const slots: [number, number, number][] = [
 
 export const InputPage = ({ skills, talismans, router }: Props) => {
   const dispatch = useDispatch();
+  const skillIdToSkillName = (id: number) =>
+    skills.find((element) => element.id === id)?.name || "";
+  const dominatingTalisman = (talisman: Talisman) =>
+    talismans.find(
+      (candidate) =>
+        talisman.id !== candidate.id &&
+        talismanDomination(skills, candidate, talisman)
+    );
+  const talismanList = (
+    <div>
+      {talismans
+        .map(
+          (talisman) =>
+            [talisman, talismanToString(skillIdToSkillName, talisman)] as [
+              Talisman,
+              string
+            ]
+        )
+        .map(([talisman, text]) => {
+          const dominating = dominatingTalisman(talisman);
+          return (
+            <p key={talisman.id}>
+              <button
+                onClick={() =>
+                  dispatch(
+                    removeTalisman({ talismanId: talisman.id, router: router })
+                  )
+                }
+              >
+                ☓
+              </button>
+              {text}
+              {dominating
+                ? `: Dominated by ${talismanToString(
+                    skillIdToSkillName,
+                    dominating
+                  )}`
+                : ""}
+            </p>
+          );
+        })}
+    </div>
+  );
   return (
     <div>
       <div>
@@ -104,32 +148,7 @@ export const InputPage = ({ skills, talismans, router }: Props) => {
         <button onClick={() => dispatch(addTalisman({ router: router }))}>
           Add
         </button>
-        <div>
-          {talismans
-            .map(
-              (talisman) =>
-                [
-                  talisman.id,
-                  talismanToString(
-                    (id) =>
-                      skills.find((element) => element.id === id)?.name || "",
-                    talisman
-                  ),
-                ] as [number, string]
-            )
-            .map(([id, text]) => (
-              <p key={id}>
-                <button
-                  onClick={() =>
-                    dispatch(removeTalisman({ talismanId: id, router: router }))
-                  }
-                >
-                  ☓
-                </button>
-                {text}
-              </p>
-            ))}
-        </div>
+        {talismanList}
       </div>
       <div>
         <h1>スキル追加</h1>
