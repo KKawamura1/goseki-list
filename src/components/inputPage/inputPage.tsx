@@ -6,9 +6,11 @@ import {
   addSkill,
   setSkillNameForm,
   setSkillYomiForm,
+  setSkillSize,
   select,
 } from "./state/slice";
-import { TextForm } from "./textForm";
+import { TextForm } from "../forms/textForm";
+import { RadioButtonForm } from "../forms/radioButtonForm";
 // @ts-ignore
 import styles from "./styles.module.scss";
 
@@ -40,6 +42,42 @@ export const InputPage = () => {
           setMethod={setSkillYomiForm}
           selector={(state) => select(state).addSkillYomiForm}
         ></TextForm>
+        <p>必要スロット</p>
+        <RadioButtonForm
+          name="slot"
+          id={1}
+          setMethod={setSkillSize}
+          selector={(state) => select(state).addSkillSize}
+        >
+          1
+        </RadioButtonForm>
+        <RadioButtonForm
+          name="slot"
+          id={2}
+          setMethod={setSkillSize}
+          selector={(state) => select(state).addSkillSize}
+        >
+          2
+        </RadioButtonForm>
+
+        <RadioButtonForm
+          name="slot"
+          id={3}
+          setMethod={setSkillSize}
+          selector={(state) => select(state).addSkillSize}
+        >
+          3
+        </RadioButtonForm>
+
+        <RadioButtonForm
+          name="slot"
+          id={4}
+          setMethod={setSkillSize}
+          selector={(state) => select(state).addSkillSize}
+        >
+          該当なし
+        </RadioButtonForm>
+
         <button onClick={() => dispatch(addSkill())}>Add</button>
       </div>
     </div>

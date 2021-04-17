@@ -17,6 +17,7 @@ export type State = {
   addTalismanTextForm: string;
   addSkillNameForm: string;
   addSkillYomiForm: string;
+  addSkillSize: number;
 };
 type ParentState = { inputPage: State };
 
@@ -38,6 +39,9 @@ const slice = createSlice({
   initialState: {
     talismans: initialTalismanEntityState,
     addTalismanTextForm: "",
+    addSkillNameForm: "",
+    addSkillYomiForm: "",
+    addSkillSize: 0,
   } as State,
   reducers: {
     addTalisman: (state) => {
@@ -54,7 +58,11 @@ const slice = createSlice({
       state.addTalismanTextForm = "";
     },
     addSkill: (state) => {
-      addSkillToDB(state.addSkillNameForm, state.addSkillYomiForm, 1);
+      addSkillToDB(
+        state.addSkillNameForm,
+        state.addSkillYomiForm,
+        state.addSkillSize
+      );
       state.addSkillNameForm = "";
       state.addSkillYomiForm = "";
     },
@@ -66,6 +74,10 @@ const slice = createSlice({
     },
     setSkillYomiForm: (state, action: Action<{ text: string }>) => {
       state.addSkillYomiForm = action.payload.text;
+    },
+    setSkillSize: (state, action: Action<{ id: number }>) => {
+      state.addSkillSize = action.payload.id;
+      console.log(state.addSkillSize);
     },
   },
   extraReducers: (builder) => {},
@@ -79,4 +91,5 @@ export const {
   setTalismanTextForm,
   setSkillNameForm,
   setSkillYomiForm,
+  setSkillSize,
 } = slice.actions;

@@ -11,7 +11,6 @@ export type Props = {
 export const TextForm = ({ setMethod, selector }: Props) => {
   const dispatch = useDispatch();
   const value = useSelector(selector);
-  // const value = useSelector(select).addTalismanTextForm;
   return (
     <input
       type="text"
