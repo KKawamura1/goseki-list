@@ -62,7 +62,7 @@ export default async function handle(
               id: data.skill2Id,
             },
           },
-          level1: data.level2,
+          level2: data.level2,
         };
   const talisman = await prisma.talisman.create({
     data: {
