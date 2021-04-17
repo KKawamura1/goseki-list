@@ -17,12 +17,14 @@ import { RadioButtonForm } from "../forms/radioButtonForm";
 import { PullDownForm } from "../forms/pullDownForm";
 import { Skill, skillToString } from "../../commons/types/skill";
 import { Talisman, talismanToString } from "../../commons/types/talisman";
+import { NextRouter } from "next/dist/client/router";
 // @ts-ignore
 import styles from "./styles.module.scss";
 
 export type Props = {
   skills: Skill[];
   talismans: Talisman[];
+  router: NextRouter;
 };
 
 const slots: [number, number, number][] = [
@@ -48,7 +50,7 @@ const slots: [number, number, number][] = [
   [3, 3, 3],
 ];
 
-export const InputPage = ({ skills, talismans }: Props) => {
+export const InputPage = ({ skills, talismans, router }: Props) => {
   const dispatch = useDispatch();
   return (
     <div>
@@ -98,7 +100,9 @@ export const InputPage = ({ skills, talismans }: Props) => {
           }}
           // selector={(state) => select(state).addTalisman.slotSize}
         ></PullDownForm>
-        <button onClick={() => dispatch(addTalisman())}>Add</button>
+        <button onClick={() => dispatch(addTalisman({ router: router }))}>
+          Add
+        </button>
         <div>
           {talismans
             .map((talisman) =>
@@ -136,7 +140,7 @@ export const InputPage = ({ skills, talismans }: Props) => {
             {num === 3 ? "該当なし" : num}
           </RadioButtonForm>
         ))}
-        <button onClick={() => dispatch(addSkill())}>Add</button>
+        <button onClick={() => dispatch(addSkill({ router }))}>Add</button>
       </div>
       <div>
         <h1>スキル削除</h1>
@@ -149,7 +153,7 @@ export const InputPage = ({ skills, talismans }: Props) => {
           // selector={(state) => select(state).removeSkillId}
         ></PullDownForm>
 
-        <button onClick={() => dispatch(removeSkill())}>削除</button>
+        <button onClick={() => dispatch(removeSkill({ router }))}>削除</button>
       </div>
     </div>
   );

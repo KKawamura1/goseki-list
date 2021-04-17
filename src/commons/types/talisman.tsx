@@ -1,5 +1,5 @@
 export type SkillAndLevel = {
-  skillId: number;
+  skillId: number | null;
   skillLevel: number;
 };
 
@@ -15,6 +15,9 @@ export const talismanToString = (
 ) => {
   const skillToString = (skill: SkillAndLevel) => {
     if (skill.skillLevel === 0) {
+      return null;
+    }
+    if (skill.skillId === null) {
       return null;
     }
     return `${skillIdToString(skill.skillId)}${skill.skillLevel}`;

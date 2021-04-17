@@ -7,6 +7,7 @@ import { Talisman } from "../commons/types/talisman";
 import { PrismaClient } from "@prisma/client";
 // @ts-ignore
 import styles from "../styles/index.module.scss";
+import { useRouter } from "next/dist/client/router";
 
 const prisma = new PrismaClient();
 
@@ -71,6 +72,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const Home = ({ skills, talismans }: Props) => {
+  const router = useRouter();
   return (
     <div className={styles.container}>
       <Head>
@@ -79,7 +81,7 @@ const Home = ({ skills, talismans }: Props) => {
       </Head>
 
       <main className={styles.main}>
-        <InputPage skills={skills} talismans={talismans} />
+        <InputPage skills={skills} talismans={talismans} router={router} />
       </main>
     </div>
   );

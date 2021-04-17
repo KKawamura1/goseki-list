@@ -41,7 +41,6 @@ export default async function handle(
     slot2: number;
     slot3: number;
   } = req.body; // TODO: typing
-  console.log(data);
   const skill1 =
     data.skill1Id === null
       ? {}

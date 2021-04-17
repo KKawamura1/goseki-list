@@ -3,6 +3,7 @@ import { Action } from "../../../commons/action";
 import { addTalisman as addTalismanToDB } from "../utilities/addTalisman";
 import { addSkill as addSkillToDB } from "../utilities/addSkill";
 import { removeSkill as removeSkillFromDB } from "../utilities/removeSkill";
+import { NextRouter } from "next/dist/client/router";
 
 // State types
 export type State = {
@@ -38,7 +39,7 @@ const slice = createSlice({
   } as State,
   reducers: {
     // Add talisman
-    addTalisman: (state) => {
+    addTalisman: (state, action: Action<{ router: NextRouter }>) => {
       addTalismanToDB({
         skill1Id: state.addTalisman.skills[0].skillId,
         level1: state.addTalisman.skills[0].level,
@@ -47,6 +48,8 @@ const slice = createSlice({
         slot1: state.addTalisman.slotSize[0],
         slot2: state.addTalisman.slotSize[1],
         slot3: state.addTalisman.slotSize[2],
+      }).finally(() => {
+        action.payload.router.replace(action.payload.router.asPath);
       });
     },
     setTalismanSkillId: (
@@ -70,14 +73,16 @@ const slice = createSlice({
       state.addTalisman.slotSize = action.payload.slotSize;
     },
     // Add Skill
-    addSkill: (state) => {
+    addSkill: (state, action: Action<{ router: NextRouter }>) => {
       addSkillToDB(
         state.addSkillNameForm,
         state.addSkillYomiForm,
         state.addSkillSize
-      );
-      state.addSkillNameForm = "";
-      state.addSkillYomiForm = "";
+      ).finally(() => {
+        state.addSkillNameForm = "";
+        state.addSkillYomiForm = "";
+        action.payload.router.replace(action.payload.router.asPath);
+      });
     },
     setSkillNameForm: (state, action: Action<{ text: string }>) => {
       state.addSkillNameForm = action.payload.text;
@@ -89,14 +94,15 @@ const slice = createSlice({
       state.addSkillSize = action.payload.id;
     },
     // Remove Skill
-    removeSkill: (state) => {
+    removeSkill: (state, action: Action<{ router: NextRouter }>) => {
       if (state.removeSkillId !== null) {
-        removeSkillFromDB(state.removeSkillId);
+        removeSkillFromDB(state.removeSkillId).finally(() => {
+          action.payload.router.replace(action.payload.router.asPath);
+        });
       }
     },
     setRemoveSkillId: (state, action: Action<{ value: number }>) => {
       state.removeSkillId = action.payload.value;
-      console.log(state.removeSkillId);
     },
   },
   extraReducers: (builder) => {},
