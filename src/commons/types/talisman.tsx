@@ -27,9 +27,9 @@ export const talismanToString = (
       [...new Array(slotNum)].fill(size_minus_one + 1)
     )
     .flat();
-  const slotResult = slotFlattened.concat(
-    [...new Array(3 - slotFlattened.length)].fill(0)
-  );
+  const slotResult = slotFlattened
+    .concat([...new Array(3 - slotFlattened.length)].fill(0))
+    .sort((a, b) => b - a);
   const slotString = slotResult.map((slot) => slot.toString()).join("-");
   return [
     skillToString(talisman.skills[0]),
