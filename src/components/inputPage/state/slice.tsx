@@ -1,22 +1,18 @@
-import {
-  createSlice,
-  createEntityAdapter,
-  EntityState,
-} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { Action } from "../../../commons/action";
 import { addTalisman as addTalismanToDB } from "../utilities/addTalisman";
 import { addSkill as addSkillToDB } from "../utilities/addSkill";
 import { removeSkill as removeSkillFromDB } from "../utilities/removeSkill";
 
 // State types
-type TalismanEntityState = {
-  id: number;
-  name: string;
-};
 export type State = {
-  talismans: EntityState<TalismanEntityState>;
-  addTalismanSkillId: number,
-  addTalismanTextForm: string;
+  addTalisman: {
+    skills: [
+      { skillId: number; level: number },
+      { skillId: number; level: number }
+    ];
+    slotSize: [number, number, number];
+  };
   addSkillNameForm: string;
   addSkillYomiForm: string;
   addSkillSize: number;
@@ -24,25 +20,17 @@ export type State = {
 };
 type ParentState = { inputPage: State };
 
-// Entity adapters
-const talismanAdapter = createEntityAdapter<TalismanEntityState>({
-  selectId: (talisman) => talisman.id,
-});
-const initialTalismanEntityState = talismanAdapter.getInitialState();
-export const {
-  selectIds: selectTalismanIds,
-  selectAll: selectTalismanAll,
-} = talismanAdapter.getSelectors(
-  (state: ParentState) => state.inputPage.talismans
-);
-
 // Main slice
 const slice = createSlice({
   name: "inputPage", // ParentState と名前を合わせる必要がある
   initialState: {
-    talismans: initialTalismanEntityState,
-    addTalismanSkillId: "",
-    addTalismanTextForm: "",
+    addTalisman: {
+      skills: [
+        { skillId: 0, level: 0 },
+        { skillId: 0, level: 0 },
+      ],
+      slotSize: [0, 0, 0],
+    },
     addSkillNameForm: "",
     addSkillYomiForm: "",
     addSkillSize: 0,
@@ -51,20 +39,42 @@ const slice = createSlice({
   reducers: {
     // Add talisman
     addTalisman: (state) => {
-      const ids = state.talismans.ids.map((id) => {
-        if (typeof id === "string") {
-          throw Error("No way!");
-        }
-        return id;
+      addTalismanToDB({
+        skill1Id: state.addTalisman.skills[0].skillId,
+        level1: state.addTalisman.skills[0].level,
+        skill2Id: state.addTalisman.skills[1].skillId,
+        level2: state.addTalisman.skills[1].level,
+        slot1: state.addTalisman.slotSize[0],
+        slot2: state.addTalisman.slotSize[1],
+        slot3: state.addTalisman.slotSize[2],
       });
-      const newId = Math.max(...ids, 0) + 1;
-      const newName = state.addTalismanTextForm;
-      talismanAdapter.addOne(state.talismans, { id: newId, name: newName });
-      addTalismanToDB(newName);
-      state.addTalismanTextForm = "";
+      state.addTalisman = {
+        skills: [
+          { skillId: 0, level: 0 },
+          { skillId: 0, level: 0 },
+        ],
+        slotSize: [0, 0, 0],
+      };
     },
-    setTalismanTextForm: (state, action: Action<{ text: string }>) => {
-      state.addTalismanTextForm = action.payload.text;
+    setTalismanSkillId: (
+      state,
+      action: Action<{ place: number; skillId: number }>
+    ) => {
+      state.addTalisman.skills[action.payload.place].skillId =
+        action.payload.skillId;
+    },
+    setTalismanSkillLevel: (
+      state,
+      action: Action<{ place: number; skillLevel: number }>
+    ) => {
+      state.addTalisman.skills[action.payload.place].level =
+        action.payload.skillLevel;
+    },
+    setTalismanSlotKind: (
+      state,
+      action: Action<{ slotSize: [number, number, number] }>
+    ) => {
+      state.addTalisman.slotSize = action.payload.slotSize;
     },
     // Add Skill
     addSkill: (state) => {
@@ -86,11 +96,8 @@ const slice = createSlice({
       state.addSkillSize = action.payload.id;
     },
     // Remove Skill
-    removeSkill: (
-      state,
-      action: Action<{ idToSkillId: (selectId: number) => number }>
-    ) => {
-      removeSkillFromDB(action.payload.idToSkillId(state.removeSkillId));
+    removeSkill: (state) => {
+      removeSkillFromDB(state.removeSkillId);
     },
     setRemoveSkillId: (state, action: Action<{ value: number }>) => {
       state.removeSkillId = action.payload.value;
@@ -104,7 +111,6 @@ export const select = (state: ParentState): State => state.inputPage;
 export const reducer = slice.reducer;
 export const {
   addTalisman,
-  setTalismanTextForm,
   addSkill,
   setSkillNameForm,
   setSkillYomiForm,

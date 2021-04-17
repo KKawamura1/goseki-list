@@ -17,27 +17,32 @@ import { PullDownForm } from "../forms/pullDownForm";
 import { Skill } from "../../commons/types/skill";
 // @ts-ignore
 import styles from "./styles.module.scss";
+import { Talisman } from "../../commons/types/talisman";
 
 export type Props = {
   skills: Skill[];
+  talismans: Talisman[];
 };
 
-export const InputPage = ({ skills }: Props) => {
+export const InputPage = ({ skills, talismans }: Props) => {
   const dispatch = useDispatch();
-  const talismans = useSelector(selectTalismanAll).map((talisman) => (
-    <p key={talisman.id}>{talisman.name}</p>
-  ));
   return (
     <div>
-      <div>
+      {/* <div>
         <h1>護石追加</h1>
+        <PullDownForm
+          name="talismanSkill1"
+          items={skills.map((skill) => skill.name)}
+          setMethod={setRemoveSkillId}
+          selector={(state) => select(state).removeSkillId}
+        ></PullDownForm>
         <TextForm
           setMethod={setTalismanTextForm}
           selector={(state) => select(state).addTalismanTextForm}
         ></TextForm>
         <button onClick={() => dispatch(addTalisman())}>Add</button>
         <div>{talismans}</div>
-      </div>
+      </div> */}
       <div>
         <h1>スキル追加</h1>
         <p>名前</p>
@@ -92,20 +97,13 @@ export const InputPage = ({ skills }: Props) => {
         <h1>スキル削除</h1>
         <PullDownForm
           name="skillRemove"
-          items={skills.map((skill) => skill.name)}
+          items={skills.map((skill) => skill.name + " (" + skill.size + ")")}
+          values={skills.map((skill) => skill.id)}
           setMethod={setRemoveSkillId}
           selector={(state) => select(state).removeSkillId}
         ></PullDownForm>
 
-        <button
-          onClick={() =>
-            dispatch(
-              removeSkill({ idToSkillId: (skillId) => skills[skillId].id })
-            )
-          }
-        >
-          削除
-        </button>
+        <button onClick={() => dispatch(removeSkill())}>削除</button>
       </div>
     </div>
   );

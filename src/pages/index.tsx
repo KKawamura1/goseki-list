@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next";
 import { IncomingMessage, ServerResponse } from "node:http";
 import { InputPage } from "../components/inputPage/inputPage";
 import { Skill } from "../commons/types/skill";
+import { Talisman } from "../commons/types/talisman";
 import { PrismaClient } from "@prisma/client";
 // @ts-ignore
 import styles from "../styles/index.module.scss";
@@ -44,6 +45,7 @@ const authorize = (request: IncomingMessage) => {
 
 export type Props = {
   skills: Skill[];
+  talismans: Talisman[];
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -53,11 +55,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const skills = await prisma.skill.findMany();
-  const result: Props = { skills };
+  const talismans = await prisma.talisman.findMany();
+  const result: Props = {
+    skills: skills,
+    talismans: talismans.map((talisman) => ({
+      id: talisman.id,
+      skills: [
+        { skillId: talisman.skill1Id, skillLevel: talisman.level1 },
+        { skillId: talisman.skill2Id, skillLevel: talisman.level2 },
+      ],
+      slots: [talisman.slot1, talisman.slot2, talisman.slot3],
+    })),
+  };
   return { props: result };
 };
 
-const Home = ({ skills }: Props) => {
+const Home = ({ skills, talismans }: Props) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -66,7 +79,7 @@ const Home = ({ skills }: Props) => {
       </Head>
 
       <main className={styles.main}>
-        <InputPage skills={skills} />
+        <InputPage skills={skills} talismans={talismans} />
       </main>
     </div>
   );

@@ -1,4 +1,12 @@
-export const addTalisman = async (name: string) => {
+export const addTalisman = async (talisman: {
+  skill1Id: number;
+  level1: number;
+  skill2Id: number;
+  level2: number;
+  slot1: number;
+  slot2: number;
+  slot3: number;
+}) => {
   const method = "POST";
   const headers = {
     Accept: "application/json",
@@ -7,6 +15,6 @@ export const addTalisman = async (name: string) => {
   await fetch("api/addTalisman", {
     method,
     headers,
-    body: JSON.stringify({ name }),
+    body: JSON.stringify(talisman),
   });
 };

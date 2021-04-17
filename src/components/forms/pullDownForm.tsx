@@ -6,15 +6,22 @@ import { useDispatch, useSelector } from "react-redux";
 export type Props = {
   name: string;
   items: ReactNode[];
+  values: Number[];
   setMethod: Dispatch<{ value: number }>;
   selector: (state: any) => number;
 };
 
-export const PullDownForm = ({ name, items, setMethod, selector }: Props) => {
+export const PullDownForm = ({
+  name,
+  items,
+  values,
+  setMethod,
+  selector,
+}: Props) => {
   const dispatch = useDispatch();
   const value = useSelector(selector);
   const options = items.map((item, index) => (
-    <option key={index} value={index.toString()}>
+    <option key={index} value={values[index].toString()}>
       {item}
     </option>
   ));

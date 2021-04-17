@@ -32,10 +32,17 @@ export default async function handle(
   res: NextApiResponse
 ) {
   await runMiddleware(req, res, cors);
-  const { name }: { name: string } = req.body; // TODO: typing
+  const data: {
+    skill1Id: number;
+    level1: number;
+    skill2Id: number;
+    level2: number;
+    slot1: number;
+    slot2: number;
+    slot3: number;
+  } = req.body; // TODO: typing
   const talisman = await prisma.talisman.create({
-    data: {
-    },
+    data: { ...data },
   });
   res.json({ talisman });
 }
