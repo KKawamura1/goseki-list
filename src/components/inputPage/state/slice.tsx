@@ -1,9 +1,10 @@
-import { Action } from "../../../commons/action";
 import {
   createSlice,
   createEntityAdapter,
   EntityState,
 } from "@reduxjs/toolkit";
+import { Action } from "../../../commons/action";
+import { addTalisman as addTalismanToDB } from "../utilities/addTalisman";
 
 // State types
 type TalismanEntityState = {
@@ -46,6 +47,7 @@ const slice = createSlice({
       const newId = Math.max(...ids, 0) + 1;
       const newName = state.addTalismanTextForm;
       talismanAdapter.addOne(state.talismans, { id: newId, name: newName });
+      addTalismanToDB(newName);
       state.addTalismanTextForm = "";
     },
     setTalismanTextForm: (state, action: Action<{ text: string }>) => {
