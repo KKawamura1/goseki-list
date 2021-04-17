@@ -10,7 +10,24 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Skill {
+  id            Int             @id @default(autoincrement())
+  name          String
+  size          Int
+  SkillAndLevel SkillAndLevel[]
+}
+
+model SkillAndLevel {
+  id         Int       @id @default(autoincrement())
+  skill      Skill     @relation(fields: [skillId], references: [id])
+  level      Int
+  Talisman   Talisman? @relation(fields: [talismanId], references: [id])
+  talismanId Int?
+  skillId    Int
+}
+
 model Talisman {
-  id Int @id @default(autoincrement())
-  name String
+  id     Int             @id @default(autoincrement())
+  skills SkillAndLevel[]
+  slots  Int[]
 }
