@@ -1,15 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
-import { select, countUp } from "./state/slice";
+import { selectTalismanAll, addTalisman, select } from "./state/slice";
+import { TextForm } from "./textForm";
 // @ts-ignore
 import styles from "./styles.module.scss";
 
 export const InputPage = () => {
   const dispatch = useDispatch();
-  const count = useSelector(select).count;
+  const talismans = useSelector(selectTalismanAll).map((talisman) => {
+    <p>{talisman.name}</p>;
+  });
   return (
     <div>
-      <button onClick={() => dispatch(countUp({}))}>+1</button>
-      <p>Hello! {count}</p>
+      <TextForm></TextForm>
+      <button onClick={() => dispatch(addTalisman())}>Add</button>
+      <p>Hello!</p>
+      {talismans}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { AppDispatch, wrapper } from "../store";
-import { Hello } from "../components/inputPage/inputPage";
+import { InputPage } from "../components/inputPage/inputPage";
 // @ts-ignore
 import styles from "../styles/index.module.scss";
 
@@ -15,7 +15,7 @@ const Home = () => {
       </Head>
 
       <main className={styles.main}>
-        <Hello />
+        <InputPage />
       </main>
     </div>
   );

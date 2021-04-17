@@ -1,23 +1,60 @@
 import { Action } from "../../../commons/action";
-import { createSlice } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createEntityAdapter,
+  EntityState,
+} from "@reduxjs/toolkit";
 
-export type State = {
-  count: number;
+// State types
+type TalismanEntityState = {
+  id: number;
+  name: string;
 };
+export type State = {
+  talismans: EntityState<TalismanEntityState>;
+  addTalismanTextForm: string;
+};
+type ParentState = { inputPage: State };
 
-export const select = (state: any): State => state.inputPage;
+// Entity adapters
+const talismanAdapter = createEntityAdapter<TalismanEntityState>({
+  selectId: (talisman) => talisman.id,
+});
+const initialTalismanEntityState = talismanAdapter.getInitialState();
+export const {
+  selectIds: selectTalismanIds,
+  selectAll: selectTalismanAll,
+} = talismanAdapter.getSelectors(
+  (state: ParentState) => state.inputPage.talismans
+);
+
+// Main slice
 const slice = createSlice({
-  name: "inputPage",
+  name: "inputPage", // ParentState と名前を合わせる必要がある
   initialState: {
-    count: 0,
+    talismans: initialTalismanEntityState,
+    addTalismanTextForm: "",
   } as State,
   reducers: {
-    countUp: (state, action: Action<{}>) => {
-      state.count += 1;
+    addTalisman: (state) => {
+      const ids = state.talismans.ids.map((id) => {
+        if (typeof id === "string") {
+          throw Error("No way!");
+        }
+        return id;
+      });
+      const newId = Math.max(...ids) + 1;
+      const newName = state.addTalismanTextForm;
+      talismanAdapter.addOne(state.talismans, { id: newId, name: newName });
+      state.addTalismanTextForm = "";
+    },
+    setTalismanTextForm: (state, action: Action<{ text: string }>) => {
+      state.addTalismanTextForm = action.payload.text;
     },
   },
   extraReducers: (builder) => {},
 });
 
+export const select = (state: ParentState): State => state.inputPage;
 export const reducer = slice.reducer;
-export const { countUp } = slice.actions;
+export const { addTalisman, setTalismanTextForm } = slice.actions;
