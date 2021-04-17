@@ -54,7 +54,7 @@ export const InputPage = ({ skills, talismans }: Props) => {
     <div>
       <div>
         <h1>護石追加</h1>
-        {[...new Array(2)].map((num) => (
+        {[...new Array(2)].map((_, num) => (
           <div key={num}>
             <PullDownForm
               name={`talismanSkill${num}`}
@@ -69,8 +69,8 @@ export const InputPage = ({ skills, talismans }: Props) => {
             ></PullDownForm>
             <PullDownForm
               name={`talismanLevel${num}`}
-              items={[]}
-              values={skills.map((skill) => skill.id)}
+              items={[...new Array(8)].map((_, num) => num)}
+              values={[...new Array(8)].map((_, num) => num)}
               setMethod={({ value }) =>
                 setTalismanSkillLevel({ place: num, skillLevel: value })
               }
@@ -96,7 +96,7 @@ export const InputPage = ({ skills, talismans }: Props) => {
           // selector={(state) => select(state).addTalisman.slotSize}
         ></PullDownForm>
         <button onClick={() => dispatch(addTalisman())}>Add</button>
-        <div>{talismans}</div>
+        {/* <div>{talismans}</div> */}
       </div>
       <div>
         <h1>スキル追加</h1>
@@ -111,10 +111,11 @@ export const InputPage = ({ skills, talismans }: Props) => {
           selector={(state) => select(state).addSkillYomiForm}
         ></TextForm>
         <p>必要スロット</p>
-        {[...new Array(4)].map((num) => (
+        {[...new Array(4)].map((_, num) => (
           <RadioButtonForm
             name="slot"
             id={num + 1}
+            key={num}
             setMethod={setSkillSize}
             // selector={(state) => select(state).addSkillSize}
           >
