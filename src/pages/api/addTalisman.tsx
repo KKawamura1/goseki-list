@@ -35,7 +35,6 @@ export default async function handle(
   const { name }: { name: string } = req.body; // TODO: typing
   const talisman = await prisma.talisman.create({
     data: {
-      name: name,
     },
   });
   res.json({ talisman });
