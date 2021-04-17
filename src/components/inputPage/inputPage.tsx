@@ -7,7 +7,7 @@ import styles from "./styles.module.scss";
 export const InputPage = () => {
   const dispatch = useDispatch();
   const talismans = useSelector(selectTalismanAll).map((talisman) => (
-    <p>{talisman.name}</p>
+    <p key={talisman.id}>{talisman.name}</p>
   ));
   return (
     <div>
