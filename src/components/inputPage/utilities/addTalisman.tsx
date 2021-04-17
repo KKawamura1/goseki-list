@@ -4,7 +4,6 @@ export const addTalisman = async (name: string) => {
     Accept: "application/json",
     "Content-Type": "application/json",
   };
-  console.log("Hoggeeeeee");
   await fetch("api/addTalisman", {
     method,
     headers,
