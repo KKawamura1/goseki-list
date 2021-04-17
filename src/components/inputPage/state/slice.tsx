@@ -18,6 +18,7 @@ export type State = {
   addSkillNameForm: string;
   addSkillYomiForm: string;
   addSkillSize: number;
+  removeSkillId: number;
 };
 type ParentState = { inputPage: State };
 
@@ -42,6 +43,7 @@ const slice = createSlice({
     addSkillNameForm: "",
     addSkillYomiForm: "",
     addSkillSize: 0,
+    removeSkillId: 0,
   } as State,
   reducers: {
     addTalisman: (state) => {
@@ -77,7 +79,10 @@ const slice = createSlice({
     },
     setSkillSize: (state, action: Action<{ id: number }>) => {
       state.addSkillSize = action.payload.id;
-      console.log(state.addSkillSize);
+    },
+    setRemoveSkillId: (state, action: Action<{ value: number }>) => {
+      state.removeSkillId = action.payload.value;
+      console.log(state.removeSkillId);
     },
   },
   extraReducers: (builder) => {},
@@ -92,4 +97,5 @@ export const {
   setSkillNameForm,
   setSkillYomiForm,
   setSkillSize,
+  setRemoveSkillId,
 } = slice.actions;

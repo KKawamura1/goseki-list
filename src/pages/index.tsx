@@ -2,8 +2,12 @@ import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { IncomingMessage, ServerResponse } from "node:http";
 import { InputPage } from "../components/inputPage/inputPage";
+import { Skill } from "../commons/types/skill";
+import { PrismaClient } from "@prisma/client";
 // @ts-ignore
 import styles from "../styles/index.module.scss";
+
+const prisma = new PrismaClient();
 
 // https://nju33.com/notes/nextjs/articles/Basic%20%E8%AA%8D%E8%A8%BC%E3%82%92%E4%BB%98%E3%81%91%E3%82%8B#%E4%BE%8B
 
@@ -38,16 +42,22 @@ const authorize = (request: IncomingMessage) => {
   return true;
 };
 
+export type Props = {
+  skills: Skill[];
+};
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const authorized = authorize(context.req);
   if (!authorized) {
     sendUnauthorized(context.res);
   }
 
-  return { props: {} };
+  const skills = await prisma.skill.findMany();
+  const result: Props = { skills };
+  return { props: result };
 };
 
-const Home = () => {
+const Home = ({ skills }: Props) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -56,7 +66,7 @@ const Home = () => {
       </Head>
 
       <main className={styles.main}>
-        <InputPage />
+        <InputPage skills={skills} />
       </main>
     </div>
   );

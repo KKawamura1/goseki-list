@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import Cors from "cors";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Skill } from "../../commons/types/skill";
 
 const prisma = new PrismaClient();
 
@@ -33,13 +32,17 @@ export default async function handle(
   res: NextApiResponse
 ) {
   await runMiddleware(req, res, cors);
-  const skills = await prisma.skill.findMany();
-  const jsonableSkills: Skill[] = skills.map((skill) => ({
-    id: skill.id,
-    name: skill.name,
-    yomi: skill.yomi,
-    size: skill.size,
-  }));
-  console.log(jsonableSkills);
-  res.json(jsonableSkills);
+  const {
+    name,
+    yomi,
+    size,
+  }: { name: string; yomi: string; size: number } = req.body;
+  const skill = await prisma.skill.create({
+    data: {
+      name,
+      yomi,
+      size,
+    },
+  });
+  res.json({ skill });
 }

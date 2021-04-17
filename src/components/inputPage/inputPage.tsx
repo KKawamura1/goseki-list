@@ -7,14 +7,21 @@ import {
   setSkillNameForm,
   setSkillYomiForm,
   setSkillSize,
+  setRemoveSkillId,
   select,
 } from "./state/slice";
 import { TextForm } from "../forms/textForm";
 import { RadioButtonForm } from "../forms/radioButtonForm";
+import { PullDownForm } from "../forms/pullDownForm";
+import { Skill } from "../../commons/types/skill";
 // @ts-ignore
 import styles from "./styles.module.scss";
 
-export const InputPage = () => {
+export type Props = {
+  skills: Skill[];
+};
+
+export const InputPage = ({ skills }: Props) => {
   const dispatch = useDispatch();
   const talismans = useSelector(selectTalismanAll).map((talisman) => (
     <p key={talisman.id}>{talisman.name}</p>
@@ -79,6 +86,15 @@ export const InputPage = () => {
         </RadioButtonForm>
 
         <button onClick={() => dispatch(addSkill())}>Add</button>
+      </div>
+      <div>
+        <h1>スキル削除</h1>
+        <PullDownForm
+          name="skillRemove"
+          items={skills.map((skill) => skill.name)}
+          setMethod={setRemoveSkillId}
+          selector={(state) => select(state).removeSkillId}
+        ></PullDownForm>
       </div>
     </div>
   );
