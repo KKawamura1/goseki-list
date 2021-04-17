@@ -8,6 +8,7 @@
     "start": "next start -p $PORT"
   },
   "dependencies": {
+    "@prisma/client": "^2.21.2",
     "@reduxjs/toolkit": "^1.5.0",
     "cors": "^2.8.5",
     "next": "10.1.3",
@@ -23,7 +24,6 @@
     "sass": "^1.32.10"
   },
   "devDependencies": {
-    "@prisma/client": "^2.21.2",
     "@types/cors": "^2.8.10",
     "@types/next-redux-wrapper": "^3.0.0",
     "@types/node": "^14.14.10",
