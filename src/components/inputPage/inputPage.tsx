@@ -171,7 +171,7 @@ export const InputPage = ({ skills, talismans, router }: Props) => {
             setMethod={setSkillSize}
             // selector={(state) => select(state).addSkillSize}
           >
-            {num === 3 ? "該当なし" : num}
+            {num === 3 ? "該当なし" : num + 1}
           </RadioButtonForm>
         ))}
         <button onClick={() => dispatch(addSkill({ router }))}>Add</button>
